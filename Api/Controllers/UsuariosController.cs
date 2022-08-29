@@ -8,11 +8,11 @@ namespace Api.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsuariosController 
     {
 
-        [HttpGet(Name = "BuscarUsuarios")]
+        [HttpGet("BuscarUsuarios", Name = "BuscarUsuarios")]
         public async Task<List<Usuarios>> BuscarUsuarios()
         {
             var searchBranches = new UsuariosService();

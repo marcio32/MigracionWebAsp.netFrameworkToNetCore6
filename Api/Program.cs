@@ -6,9 +6,19 @@ using WebFinal.Data.Manager;
 using WebFinal.Data.Base;
 using WebFinal.Data.Entities;
 
+var MyAllowSpecificOrigins = "";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
 
 builder.Services.AddHealthChecks();
 // Controlling reference loop 
@@ -39,6 +49,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 
