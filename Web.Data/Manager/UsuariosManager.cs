@@ -26,9 +26,6 @@ namespace WebFinal.Data.Manager
 
         public async override Task<List<Usuarios>> SearchListAsync(Usuarios entityModel)
         {
-            var p =  contextSingleton.Usuarios
-                .Where(u => u.Activo == true)
-                .ToList();
             return await contextSingleton.Usuarios
                 .Where(u => u.Activo == true).Include(x=> x.Roles)
                 .ToListAsync();
