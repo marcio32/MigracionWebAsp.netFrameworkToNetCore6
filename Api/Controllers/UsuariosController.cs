@@ -18,6 +18,7 @@ namespace Api.Controllers
         {
             var searchBranches = new UsuariosService();
             return await searchBranches.SearchListAsync();
+
         }
     }
 }

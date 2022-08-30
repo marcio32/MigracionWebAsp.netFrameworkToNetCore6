@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Common.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Web.Data.Entities;
@@ -15,14 +17,16 @@ namespace Api.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
+        public string ErrorMessage { get; set; }
+        public bool Status { get; set; }
+
         private readonly IConfiguration _configuration;
 
-        private static ApplicationDbContext contextInstance = null;
+        private static ApplicationDbContext contextInstance;
 
 
         public AuthenticateController(IConfiguration configuration)
         {
-            DbContextOptionsBuilder optionsBuilder;
             contextInstance = new ApplicationDbContext();
             _configuration = configuration;
         }
@@ -31,42 +35,67 @@ namespace Api.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Login model)
         {
-            var user = contextInstance.Usuarios.Where(x => x.Mail == model.Mail).Include(x => x.Roles).FirstOrDefault();
-            if (user != null)
+            try
             {
+                var user = contextInstance.Usuarios.Where(x => x.Mail == model.Mail).Include(x => x.Roles).FirstOrDefault();
+                if (user != null)
+                {
 
-                var authClaims = new List<Claim>
+                    var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, user.Mail),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                authClaims.Add(new Claim(ClaimTypes.Role, user.Roles.Nombre));
+                    authClaims.Add(new Claim(ClaimTypes.Role, user.Roles.Nombre));
 
-                var token = GetToken(authClaims);
+                    var token = GetToken(authClaims);
 
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
+                }
+                return Unauthorized();
             }
-            return Unauthorized();
+            catch (Exception ex)
+            {
+                ProcessError(ex);
+                return StatusCode(StatusCodes.Status404NotFound, "Ocurrio un error por favor contacte a sistemas");
+            }
+
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            try
+            {
+                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["JWT:ValidIssuer"],
+                    audience: _configuration["JWT:ValidAudience"],
+                    expires: DateTime.Now.AddHours(3),
+                    claims: authClaims,
+                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                    );
 
-            return token;
+                return token;
+            }
+            catch (Exception ex)
+            {
+                ProcessError(ex);
+                return null;
+            }
+
+        }
+
+        public void ProcessError(Exception ex)
+        {
+            this.Status = false;
+            this.ErrorMessage = ex.Message;
+            LogHelper.LogError(ex, "AuthenticateController");
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Api.Interfaces;
 using Common.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using WebFinal.Data;
 using WebFinal.Data.Entities;
 using WebFinal.Data.Manager;
 
 namespace Api.Services
 {
-    public class UsuariosService : IUsuariosService
+    public class UsuariosService :  IUsuariosService 
     {
         public string ErrorMessage { get; set; }
         public bool Status { get; set; }
