@@ -1,7 +1,18 @@
+using Microsoft.AspNetCore.Mvc;
+using Web.Data.Base;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient("useApi", config =>
+{
+    config.BaseAddress = new Uri(builder.Configuration["ServicesUrl:ApiUrl"]);
+});
+
+
+
 
 var app = builder.Build();
 
@@ -13,6 +24,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -20,8 +33,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
+
 
 app.Run();

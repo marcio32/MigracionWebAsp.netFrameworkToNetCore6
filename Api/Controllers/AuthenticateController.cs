@@ -32,7 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("Login")]
         public IActionResult Login([FromBody] Login model)
         {
             try
@@ -67,6 +67,7 @@ namespace Api.Controllers
 
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
             try
@@ -91,11 +92,12 @@ namespace Api.Controllers
 
         }
 
-        public void ProcessError(Exception ex)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async void ProcessError(Exception ex)
         {
             this.Status = false;
             this.ErrorMessage = ex.Message;
-            LogHelper.LogError(ex, "AuthenticateController");
+            await LogHelper.LogError(ex, "AuthenticateController");
         }
     }
 }

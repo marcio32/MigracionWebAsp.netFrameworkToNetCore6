@@ -25,12 +25,12 @@
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 				  <h3 class="mb-4 text-center">Iniciar Sesion</h3>
-				  <form action="#" class="signin-form">
+				  <form action="Login/SignIn" method="post" id="form-login" class="signin-form">
 					  <div class="form-group">
-						  <input type="text" class="form-control" placeholder="Usuario" required>
+						  <input id="mail" type="email" name="Mail" class="form-control" placeholder="Mail" required>
 					  </div>
 				<div class="form-group">
-				  <input id="password-field" type="password" class="form-control" placeholder="Contraseña" required>
+				  <input id="clave" type="password" name="Password" class="form-control" placeholder="Contraseña" required>
 				  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 				</div>
 				<div class="form-group">
