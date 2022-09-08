@@ -1,13 +1,18 @@
-﻿
+﻿@using Hanssens.Net;
 @{
+
+    var storage = new LocalStorage();
+    //var token = storage.Get("Token");
     ViewData["Title"] = "Usuarios";
 }
 <link href="~/css/usuarios/usuarios.css" rel="stylesheet" />
 
 <h1 class="my-5">Usuarios</h1>
-
+<button class="btn btn-danger mb-5" id="abrirModal">Agregar Usuario</button>
 <table id="usuarios" class="table table-striped" style="width:100%">
 </table>
+
+@Html.Partial("Partial/UsuariosAddPartial")
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/usuarios/usuarios.js"></script>

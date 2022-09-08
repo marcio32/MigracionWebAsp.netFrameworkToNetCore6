@@ -7,7 +7,7 @@ using WebFinal.Data.Entities;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class UsuariosController 
