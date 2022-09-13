@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebFinal.Data.Entities
+namespace Web.Data.Entities
 {
     public class Usuarios
     {
@@ -19,6 +19,6 @@ namespace WebFinal.Data.Entities
         public string Mail { get; set; }
         public int Id_Rol { get; set; }
         public bool Activo { get; set; }
-        public Roles Roles { get; set; }
+        public Roles? Roles { get; set; }
     }
 }

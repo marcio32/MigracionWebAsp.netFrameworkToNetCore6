@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebFinal.Data.Base;
-using WebFinal.Data.Entities;
+using Web.Data.Base;
+using Web.Data.Entities;
 
-namespace WebFinal.Data.Manager
+namespace Web.Data.Manager
 {
     public class UsuariosManager : BaseManager<Usuarios>
     {

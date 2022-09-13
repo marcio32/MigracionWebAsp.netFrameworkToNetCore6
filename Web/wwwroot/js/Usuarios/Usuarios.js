@@ -22,7 +22,7 @@
                 data: function (row) {
                     var buttons =
                         `<td><a href='javascript:EditarUsuario(${JSON.stringify(row)})'<i class="fa-solid fa-pen-to-square editarUsuario"></td>` +
-                        `<td><a href='javascript:EliminarUsuario(${JSON.stringify(row.Id)})'<i class="fa-solid fa-trash eliminarUsuario"></i></td>`;
+                        `<td><a href='javascript:EliminarUsuario(${JSON.stringify(row)})'<i class="fa-solid fa-trash eliminarUsuario"></i></td>`;
                     return buttons
 
                 },
@@ -36,11 +36,51 @@
         }
     });
 
-    
-    $("#abrirModal").on('click', function AbrirModal() {
-        debugger
-        $('#UsuariosModal').modal('show');
-    });
-   
 });
 
+function GuardarUsuario() {
+    $("#usuariosAddPartial").html("");
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: "",
+        contentType: "application/json",
+        dataType: "html",
+        success: function (result) {
+            debugger
+            $("#usuariosAddPartial").html(result);
+            $('#UsuariosModal').modal('show');
+        }
+    });
+    $('#UsuariosModal').modal('show');
+
+}
+
+function EditarUsuario(row) {
+    $("#usuariosAddPartial").html("");
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: JSON.stringify(row),
+        contentType: "application/json",
+        dataType: "html",
+        success: function (result) {
+            $("#usuariosAddPartial").html(result);
+            $('#UsuariosModal').modal('show');
+        }
+    });
+    $('#UsuariosModal').modal('show');
+
+}
+
+function EliminarUsuario(row) {
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/EliminarUsuario",
+        data: JSON.stringify(row),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (r) {
+        }
+    });
+}

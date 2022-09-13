@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebFinal.Data.Base
+namespace Web.Data.Base
 {
     public abstract class BaseManager<T> where T : class
     {
@@ -62,6 +62,24 @@ namespace WebFinal.Data.Base
             {
                 await LogHelper.LogError(ex, "Base_Manager", "Save");
                 throw new ValidationException("Ha ocurrido un error al guardar un registro." + ex.Message);
+            }
+        }
+
+        public async Task<bool> Delete(T entityModel, bool isNew)
+        {
+            try
+            {
+                contextSingleton.Entry<T>(entityModel).State = EntityState.Modified;
+
+                // Valida si se guardaron los datos
+                var result = await contextSingleton.SaveChangesAsync() > 0;
+                contextSingleton.Entry(entityModel).State = EntityState.Detached;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                await LogHelper.LogError(ex, "Base_Manager", "Save");
+                throw new ValidationException("Ha ocurrido un error al Eliminar un registro." + ex.Message);
             }
         }
         #endregion

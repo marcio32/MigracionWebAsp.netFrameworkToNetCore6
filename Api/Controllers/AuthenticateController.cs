@@ -8,8 +8,8 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Web.Data.Entities;
-using WebFinal.Data;
-using WebFinal.Data.Entities;
+using Web.Data;
+using Web.Data.Entities;
 
 namespace Api.Controllers
 {

@@ -1,9 +1,9 @@
 ﻿using Api.Interfaces;
 using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using WebFinal.Data;
-using WebFinal.Data.Entities;
-using WebFinal.Data.Manager;
+using Web.Data;
+using Web.Data.Entities;
+using Web.Data.Manager;
 
 namespace Api.Services
 {
@@ -29,6 +29,39 @@ namespace Api.Services
             {
                 var result = await this._manager.SearchListAsync(new Usuarios());
                 return result;
+
+            }
+            catch (Exception ex)
+            {
+                ProcessError(ex);
+                return null;
+            }
+        }
+
+        public async Task<List<Usuarios>> SaveUserAsync(Usuarios usuarios)
+        {
+
+            try
+            {
+                var isNew = usuarios.Id == 0 ? false : true;
+                var result = await this._manager.Save(usuarios, true);
+                return await this._manager.SearchListAsync(new Usuarios()); ;
+
+            }
+            catch (Exception ex)
+            {
+                ProcessError(ex);
+                return null;
+            }
+        }
+
+        public async Task<List<Usuarios>> DeleteUserAsync(Usuarios usuarios)
+        {
+
+            try
+            {
+                var result = await this._manager.Delete(usuarios);
+                return await this._manager.SearchListAsync(new Usuarios()); ;
 
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿using WebFinal.Data.Entities;
+﻿using Web.Data.Entities;
 
 namespace Api.Interfaces
 {

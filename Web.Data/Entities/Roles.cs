@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebFinal.Data.Entities
+namespace Web.Data.Entities
 {
     public class Roles
     {

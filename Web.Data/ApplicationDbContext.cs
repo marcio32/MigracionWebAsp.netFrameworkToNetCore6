@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebFinal.Data.Entities;
+using Web.Data.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace WebFinal.Data
+namespace Web.Data
 {
     public class ApplicationDbContext : DbContext
     {

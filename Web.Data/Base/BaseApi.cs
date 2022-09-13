@@ -25,7 +25,7 @@ namespace Web.Data.Base
         JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
 
-        public async Task<IActionResult> LoginToApi(string ControllerMethodUrl, Login model)
+        public async Task<IActionResult> LoginToApi(string ControllerMethodUrl, object model)
         {
 
             try

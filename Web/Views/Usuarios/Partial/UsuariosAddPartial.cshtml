@@ -1,7 +1,10 @@
-﻿
+﻿@model UsuariosViewModel
 @{
     ViewData["Title"] = "UsuariosAddPartial";
+    
 }
+
+@Html.HiddenFor(x=> x.Id);
 
 <div class="modal fade" id="UsuariosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -10,23 +13,61 @@
                 <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Usuarios.</h5>
             </div>
             <div class="modal-body">
-
+                @{
+                    var ActionName = "";
+                    if (Model.Id == 0)
+                        ActionName = "GuardarUsuario";
+                    else
+                        ActionName = "EditarUsuario";
+                }
+                @using (Html.BeginForm(ActionName, "Usuarios", FormMethod.Post))
+                {
+                     
                         <div class="row">
-                            <div class="col-md-12 mt-1 mb-3" style="text-align:center">
-
                             <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Nombre</label>
-                                <input type="number" id="Nombre" name="Nombre" required class="col-md-9 form-control"/>
+                            @Html.EditorFor(x=> x.Nombre, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                            @Html.ValidationMessageFor(x=> x.Nombre, "", new {@class="text-danger"})
                             </div>
 
+                             <div class="col-md-6 mt-1 mb-3">
+                                <label class="col-md-6 form-control-label">Apellido</label>
+                        @Html.EditorFor(x=> x.Apellido, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-6 mt-1 mb-3">
+                                <label class="col-md-6 form-control-label">Fecha de Nacimiento</label>
+                        @Html.EditorFor(x=> x.Fecha_Nacimiento, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            </div>
+
+                             <div class="col-md-6 mt-1 mb-3">
+                                <label class="col-md-6 form-control-label">Contraseña</label>
+                        @Html.EditorFor(x=> x.Clave, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            </div>
+                            </div>
+                        <div class="row">
+                             <div class="col-md-6 mt-1 mb-3">
+                                <label class="col-md-6 form-control-label">Mail</label>
+                        @Html.EditorFor(x=> x.Mail, new { htmlAttributes = new {@class = "col-md-9 form-control", @type="email"}} )
+                            </div>
+
+                              <div class="col-md-6 mt-1 mb-3">
+                                <label class="col-md-6 form-control-label">Activo</label>
+                        @Html.CheckBoxFor(x=> x.Activo, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            </div>
+                        </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
                             </div>
+                }
                         </div>
+
+         
             </div>
             </div>
         </div>
-    </div>
-</div>
+
+
 

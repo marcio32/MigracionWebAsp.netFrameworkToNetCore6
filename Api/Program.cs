@@ -1,10 +1,10 @@
-using WebFinal.Data;
+using Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Api.Services;
 using Api.Interfaces;
-using WebFinal.Data.Manager;
-using WebFinal.Data.Base;
-using WebFinal.Data.Entities;
+using Web.Data.Manager;
+using Web.Data.Base;
+using Web.Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
