@@ -9,13 +9,13 @@ using Web.Data.Entities;
 
 namespace Web.Data.Manager
 {
-    public class UsuariosManager : BaseManager<Usuarios>
+    public class RolesManager : BaseManager<Roles>
     {
 
-        public async override Task<bool> Delete(Usuarios entityModel)
+        public async override Task<bool> Delete(Roles entityModel)
         {
             entityModel.Activo = false;
-            contextSingleton.Entry<Usuarios>(entityModel).State = EntityState.Modified;
+            contextSingleton.Entry<Roles>(entityModel).State = EntityState.Modified;
 
             var result = await contextSingleton.SaveChangesAsync() > 0;
             contextSingleton.Entry(entityModel).State = EntityState.Detached;
@@ -23,18 +23,19 @@ namespace Web.Data.Manager
             return result;
         }
 
-        public async override Task<List<Usuarios>> SearchListAsync(Usuarios entityModel)
+        public async override Task<List<Roles>> SearchListAsync(Roles entityModel)
         {
-            return await contextSingleton.Usuarios
-                .Where(u => u.Activo == true).Include(x => x.Roles)
+            return await contextSingleton.Roles
+                .Where(u => u.Activo == true)
                 .ToListAsync();
         }
 
-        public async override Task<Usuarios> SearchSingle(Usuarios entityModel)
+        public async override Task<Roles> SearchSingle(Roles entityModel)
         {
-            return await contextSingleton.Usuarios
+            return await contextSingleton.Roles
                 .Where(m => m.Id == entityModel.Id || entityModel.Id == 0)
                     .FirstOrDefaultAsync();
         }
     }
 }
+

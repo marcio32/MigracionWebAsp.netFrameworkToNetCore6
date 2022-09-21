@@ -61,6 +61,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuariosService, UsuariosService>();
+builder.Services.AddScoped<IRolesService, RolesService>();
 
 ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("WebFinalContext");
 

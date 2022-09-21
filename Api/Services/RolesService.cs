@@ -7,27 +7,27 @@ using Web.Data.Manager;
 
 namespace Api.Services
 {
-    public class UsuariosService : IUsuariosService
+    public class RolesService : IRolesService
     {
         public string ErrorMessage { get; set; }
         public bool Status { get; set; }
 
-        private readonly UsuariosManager _manager;
+        private readonly RolesManager _manager;
 
-        private readonly UsuariosManager dataAccess;
+        private readonly RolesManager dataAccess;
 
-        public UsuariosService()
+        public RolesService()
         {
-            this._manager = new UsuariosManager();
-            this.dataAccess = new UsuariosManager();
+            this._manager = new RolesManager();
+            this.dataAccess = new RolesManager();
             this.Status = true;
         }
-        public async Task<List<Usuarios>> SearchListAsync()
+        public async Task<List<Roles>> SearchListAsync()
         {
 
             try
             {
-                var result = await this._manager.SearchListAsync(new Usuarios());
+                var result = await this._manager.SearchListAsync(new Roles());
                 return result;
 
             }
@@ -38,14 +38,14 @@ namespace Api.Services
             }
         }
 
-        public async Task<List<Usuarios>> SaveUserAsync(Usuarios usuarios)
+        public async Task<List<Roles>> SaveRolAsync(Roles roles)
         {
 
             try
             {
-                var isNew = usuarios.Id == 0 ? false : true;
-                var result = await this._manager.Save(usuarios, usuarios.Id);
-                return await this._manager.SearchListAsync(new Usuarios()); ;
+                var isNew = roles.Id == 0 ? false : true;
+                var result = await this._manager.Save(roles, roles.Id);
+                return await this._manager.SearchListAsync(new Roles()); ;
 
             }
             catch (Exception ex)
@@ -55,13 +55,13 @@ namespace Api.Services
             }
         }
 
-        public async Task<List<Usuarios>> DeleteUserAsync(Usuarios usuarios)
+        public async Task<List<Roles>> DeleteRolAsync(Roles roles)
         {
 
             try
             {
-                var result = await this._manager.Delete(usuarios);
-                return await this._manager.SearchListAsync(new Usuarios()); ;
+                var result = await this._manager.Delete(roles);
+                return await this._manager.SearchListAsync(new Roles()); ;
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Api.Services
         {
             this.Status = false;
             this.ErrorMessage = ex.Message;
-            LogHelper.LogError(ex, "UsuariosModel");
+            LogHelper.LogError(ex, "RolesModel");
         }
     }
 }

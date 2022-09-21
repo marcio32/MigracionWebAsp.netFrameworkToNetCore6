@@ -1,4 +1,5 @@
-﻿using Api.Services;
+﻿using Api.Interfaces;
+using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ namespace Api.Controllers
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
-    public class UsuariosController 
+    public class UsuariosController
     {
 
         [HttpGet("BuscarUsuarios", Name = "BuscarUsuarios")]
@@ -40,3 +41,4 @@ namespace Api.Controllers
         }
     }
 }
+

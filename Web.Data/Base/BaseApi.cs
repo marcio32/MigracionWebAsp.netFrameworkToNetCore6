@@ -49,5 +49,30 @@ namespace Web.Data.Base
                 return BadRequest("Surgio un problema por favor contacte a sistemas");
             }
         }
+
+        public async Task<IActionResult> GetToApi(string ControllerMethodUrl)
+        {
+
+            try
+            {
+                var client = _httpClient.CreateClient("useApi");
+
+                var response = await client.GetAsync(ControllerMethodUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    return Ok(content);
+
+
+                }
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError(ex, "BaseApi");
+                return BadRequest("Surgio un problema por favor contacte a sistemas");
+            }
+        }
     }
 }

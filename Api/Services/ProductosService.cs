@@ -7,27 +7,27 @@ using Web.Data.Manager;
 
 namespace Api.Services
 {
-    public class UsuariosService : IUsuariosService
+    public class ProductosService : IProductosService
     {
         public string ErrorMessage { get; set; }
         public bool Status { get; set; }
 
-        private readonly UsuariosManager _manager;
+        private readonly ProductosManager _manager;
 
-        private readonly UsuariosManager dataAccess;
+        private readonly ProductosManager dataAccess;
 
-        public UsuariosService()
+        public ProductosService()
         {
-            this._manager = new UsuariosManager();
-            this.dataAccess = new UsuariosManager();
+            this._manager = new ProductosManager();
+            this.dataAccess = new ProductosManager();
             this.Status = true;
         }
-        public async Task<List<Usuarios>> SearchListAsync()
+        public async Task<List<Productos>> SearchListAsync()
         {
 
             try
             {
-                var result = await this._manager.SearchListAsync(new Usuarios());
+                var result = await this._manager.SearchListAsync(new Productos());
                 return result;
 
             }
@@ -38,14 +38,14 @@ namespace Api.Services
             }
         }
 
-        public async Task<List<Usuarios>> SaveUserAsync(Usuarios usuarios)
+        public async Task<List<Productos>> SaveProductoAsync(Productos usuarios)
         {
 
             try
             {
                 var isNew = usuarios.Id == 0 ? false : true;
                 var result = await this._manager.Save(usuarios, usuarios.Id);
-                return await this._manager.SearchListAsync(new Usuarios()); ;
+                return await this._manager.SearchListAsync(new Productos()); ;
 
             }
             catch (Exception ex)
@@ -55,13 +55,13 @@ namespace Api.Services
             }
         }
 
-        public async Task<List<Usuarios>> DeleteUserAsync(Usuarios usuarios)
+        public async Task<List<Productos>> DeleteProductoAsync(Productos usuarios)
         {
 
             try
             {
                 var result = await this._manager.Delete(usuarios);
-                return await this._manager.SearchListAsync(new Usuarios()); ;
+                return await this._manager.SearchListAsync(new Productos()); ;
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Api.Services
         {
             this.Status = false;
             this.ErrorMessage = ex.Message;
-            LogHelper.LogError(ex, "UsuariosModel");
+            LogHelper.LogError(ex, "ProductosModel");
         }
     }
 }

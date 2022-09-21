@@ -2,6 +2,8 @@
 using Web.Data.Base;
 using Web;
 using Web.Data.Entities;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Controllers
 {
@@ -18,12 +20,25 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UsuariosAddPartial([FromBody] Usuarios usuario)
+        public async Task<IActionResult> UsuariosAddPartial([FromBody] Usuarios usuario)
         {
             var usuViewModel = new UsuariosViewModel();
+            var baseApi = new BaseApi(_httpClient);
+
+            var roles = await baseApi.GetToApi("Roles/BuscarRoles");
+            var okResult = roles as OkObjectResult;
+            if (okResult != null)
+            {
+                var rolesConvert = JsonConvert.DeserializeObject<List<Roles>>(okResult.Value.ToString());
+                List<SelectListItem> lista_Roles = new List<SelectListItem>();
+                foreach (var item in rolesConvert)
+                {
+                    lista_Roles.Add(new SelectListItem { Text = item.Nombre, Value = item.Id.ToString() });
+                }
+                usuViewModel.Lista_Roles = lista_Roles;
+            }
             if (usuario != null)
                 usuViewModel = usuario;
-
             return PartialView("~/Views/Usuarios/Partial/UsuariosAddPartial.cshtml", usuViewModel);
         }
 
@@ -49,7 +64,7 @@ namespace Web.Controllers
             var baseApi = new BaseApi(_httpClient);
             var usuarios = await baseApi.LoginToApi("Usuarios/EliminarUsuario", usuario);
 
-            return await Task.Run(() => View());
+            return await Task.Run(() => View("~/Views/Usuarios/Usuarios.cshtml"));
         }
     }
 }

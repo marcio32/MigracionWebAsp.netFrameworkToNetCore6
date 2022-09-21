@@ -1,5 +1,7 @@
-﻿$(document).ready(function () {
-    $('#usuarios').DataTable({
+﻿var tablaUsuarios;
+$(document).ready(function () {
+
+    tablaUsuarios = $('#usuarios').DataTable({
         ajax: {
             url: 'https://localhost:7008/api/Usuarios/BuscarUsuarios',
             dataSrc: ''
@@ -12,7 +14,7 @@
             { data: 'mail', title: 'Mail' },
             {
                 data: function (row) {
-                    return row.Activo == true ? "Si" : "No";
+                    return row.activo == true ? "Si" : "No";
 
                 },
                 title: 'Activo'
@@ -39,6 +41,7 @@
 });
 
 function GuardarUsuario() {
+
     $("#usuariosAddPartial").html("");
     $.ajax({
         type: "POST",
@@ -79,8 +82,10 @@ function EliminarUsuario(row) {
         url: "/Usuarios/EliminarUsuario",
         data: JSON.stringify(row),
         contentType: "application/json",
-        dataType: "json",
-        success: function (r) {
+        dataType: "html",
+        success: function (result) {
+            debugger
+            tablaUsuarios.ajax.reload();
         }
     });
 }

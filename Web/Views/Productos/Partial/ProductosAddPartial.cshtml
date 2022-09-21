@@ -1,0 +1,64 @@
+﻿@model Web.ViewModels.ProductosViewModel
+
+<div class="modal fade" id="ProductosModal" tabindex="-1" productoe="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" productoe="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Productos.</h5>
+            </div>
+            <div class="modal-body">
+                @{
+                    var ActionName = "";
+                    if (Model.Id == 0)
+                        ActionName = "GuardarProducto";
+                    else
+                        ActionName = "EditarProducto";
+                }
+                @using (Html.BeginForm(ActionName, "Productos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(x=> x.Id)
+
+                            <div class="row">
+                                     <div class="col-md-12 mt-1 mb-3">
+                                <label class="col-md-3 form-control-label">Subir Imagen</label>
+                            @Html.EditorFor(x=> x.File, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+
+                            </div>
+   </div>
+
+              
+                          
+                                 <div class="row">
+                                    <div class="col-md-6 mt-1 mb-3">
+                                            <label class="col-md-6 form-control-label">Descripcion</label>
+                            @Html.EditorFor(x=> x.Descripcion, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                                    </div>
+
+                                         <div class="col-md-6 mt-1 mb-3">
+                                                <label class="col-md-6 form-control-label">Precio</label>
+                            @Html.EditorFor(x=> x.Precio, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                                        </div>
+                                 </div>
+
+                                        <div class="row">
+                                                        <div class="col-md-6 mt-1 mb-3">
+                                                <label class="col-md-6 form-control-label">Stock</label>
+                            @Html.EditorFor(x=> x.Stock, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                                        </div>    
+                                             <div class="col-md-6 mt-1 mb-3">
+                                                    <label class="col-md-6 form-control-label">Activo</label>
+                            @Html.CheckBoxFor(x=> x.Activo, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                                            </div>
+                                     </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                                </div>
+                }
+                        </div>
+
+
+            </div>
+            </div>
+        </div>

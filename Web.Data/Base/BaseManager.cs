@@ -38,13 +38,13 @@ namespace Web.Data.Base
         #endregion
 
         #region Public Methods
-        public async Task<bool> Save(T entityModel, bool isNew)
+        public async Task<bool> Save(T entityModel, int id)
         {
             try
             {
 
                 // Valida si es un registro nuevo o existente
-                if (isNew)
+                if (id == 0)
                     contextSingleton.Entry<T>(entityModel).State = EntityState.Added;
                 else
                 {
