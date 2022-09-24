@@ -1,5 +1,6 @@
 ﻿using Hanssens.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
 using NuGet.ContentModel;
@@ -9,6 +10,7 @@ using System.Text.Json;
 using Web.Data.Base;
 using Web.Data.Dtos;
 using Web.Data.Entities;
+using Web.ViewModels;
 using Xunit;
 
 namespace Web.Controllers
@@ -34,10 +36,12 @@ namespace Web.Controllers
             var baseApi = new BaseApi(_httpClient);
             var token = await baseApi.LoginToApi("Authenticate/Login", model);
             var okResult = token as OkObjectResult;
+            
             if (okResult != null)
             {
-                storage.Store("Token", okResult.Value);
-                return View("~/Views/Home/Index.cshtml");
+                var inicioViewModel = new InicioViewModel();
+                inicioViewModel.Token = okResult.Value.ToString();
+                return View("~/Views/Home/Index.cshtml", inicioViewModel);
             }
             else
             {

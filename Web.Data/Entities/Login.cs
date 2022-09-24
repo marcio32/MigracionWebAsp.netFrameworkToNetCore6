@@ -14,5 +14,7 @@ namespace Web.Data.Entities
 
         [Required(ErrorMessage = "La contraseña es requerida")]
         public string? Password { get; set; }
+
+        public string? Token { get; set; }
     }
 }

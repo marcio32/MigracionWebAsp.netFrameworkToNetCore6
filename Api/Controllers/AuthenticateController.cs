@@ -37,7 +37,7 @@ namespace Api.Controllers
         {
             try
             {
-                var user = contextInstance.Usuarios.Where(x => x.Mail == model.Mail).Include(x => x.Roles).FirstOrDefault();
+                var user = contextInstance.Usuarios.Where(x => x.Mail == model.Mail && model.Password == x.Clave).Include(x => x.Roles).FirstOrDefault();
                 if (user != null)
                 {
 
@@ -51,11 +51,7 @@ namespace Api.Controllers
 
                     var token = GetToken(authClaims);
 
-                    return Ok(new
-                    {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
-                    });
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString());
                 }
                 return Unauthorized();
             }
@@ -75,8 +71,6 @@ namespace Api.Controllers
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
                     expires: DateTime.Now.AddHours(3),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
