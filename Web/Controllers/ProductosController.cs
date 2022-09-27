@@ -3,6 +3,7 @@ using Web.Data.Base;
 using Web;
 using Web.Data.Entities;
 using Web.ViewModels;
+using Web.Filters;
 
 namespace Web.Controllers
 {
@@ -12,6 +13,7 @@ namespace Web.Controllers
         public ProductosController(IHttpClientFactory httpClientFactory) =>
         _httpClient = httpClientFactory;
 
+        [AuthorizeUsers]
         public IActionResult Productos()
         {
             return View("~/Views/Productos/Productos.cshtml");

@@ -4,6 +4,7 @@ using Web;
 using Web.Data.Entities;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Web.Filters;
 
 namespace Web.Controllers
 {
@@ -13,6 +14,7 @@ namespace Web.Controllers
         public UsuariosController(IHttpClientFactory httpClientFactory) =>
         _httpClient = httpClientFactory;
 
+        [AuthorizeUsers]
         public IActionResult Usuarios()
         {
             return View("~/Views/Usuarios/Usuarios.cshtml");
