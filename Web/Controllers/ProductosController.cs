@@ -4,18 +4,25 @@ using Web;
 using Web.Data.Entities;
 using Web.ViewModels;
 using Web.Filters;
+using Microsoft.AspNetCore.Http;
 
 namespace Web.Controllers
 {
     public class ProductosController : Controller
     {
         private readonly IHttpClientFactory _httpClient;
-        public ProductosController(IHttpClientFactory httpClientFactory) =>
-        _httpClient = httpClientFactory;
+        private string _token;
+        public ProductosController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClient = httpClientFactory;
+           
+        }
+       
 
-        [AuthorizeUsers]
+        [AuthorizeUsers(Policy = "ADMINISTRADORES")]
         public IActionResult Productos()
         {
+            _token = HttpContext.Session.GetString("Token");
             return View("~/Views/Productos/Productos.cshtml");
 
         }
@@ -32,6 +39,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarProducto(Productos producto)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
             if (producto.File != null && producto.File.Length > 0)
             {
@@ -44,12 +52,13 @@ namespace Web.Controllers
                 }
             }
             producto.File = null;
-            var productos = await baseApi.LoginToApi("Productos/GuardarProducto", producto);
+            var productos = await baseApi.LoginToApi("Productos/GuardarProducto", producto, token);
             return await Task.Run(() => View("~/Views/Productos/Productos.cshtml"));
         }
 
         public async Task<IActionResult> GuardarProducto(Productos producto)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
             if (producto.File != null && producto.File.Length > 0)
             {
@@ -62,16 +71,18 @@ namespace Web.Controllers
                 }
             }
             producto.File = null;
-            var productos = await baseApi.LoginToApi("Productos/GuardarProducto", producto);
+            
+            var productos = await baseApi.LoginToApi("Productos/GuardarProducto", producto, token);
 
             return await Task.Run(() => View("~/Views/Productos/Productos.cshtml"));
         }
 
         public async Task<IActionResult> EliminarProducto([FromBody] Productos producto)
         {
+            var token = HttpContext.Session.GetString("Token");
             producto.Activo = false;
             var baseApi = new BaseApi(_httpClient);
-            var productos = await baseApi.LoginToApi("Productos/EliminarProducto", producto);
+            var productos = await baseApi.LoginToApi("Productos/EliminarProducto", producto, token);
 
             return await Task.Run(() => View("~/Views/Productos/Productos.cshtml"));
         }

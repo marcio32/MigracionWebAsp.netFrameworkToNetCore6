@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -25,21 +26,24 @@ namespace Web.Data.Base
         JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
 
-        public async Task<IActionResult> LoginToApi(string ControllerMethodUrl, object model)
+        public async Task<IActionResult> LoginToApi(string ControllerMethodUrl, object model, string token)
         {
 
             try
             {
                 var client = _httpClient.CreateClient("useApi");
+                if (token != "")
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await client.PostAsJsonAsync(ControllerMethodUrl, model);
+
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
 
                     return Ok(content);
-                  
-                   
+
+
                 }
                 return Unauthorized();
             }
@@ -50,12 +54,15 @@ namespace Web.Data.Base
             }
         }
 
-        public async Task<IActionResult> GetToApi(string ControllerMethodUrl)
+        public async Task<IActionResult> GetToApi(string ControllerMethodUrl, string token)
         {
 
             try
             {
+
                 var client = _httpClient.CreateClient("useApi");
+                if (token != "")
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await client.GetAsync(ControllerMethodUrl);
                 if (response.IsSuccessStatusCode)

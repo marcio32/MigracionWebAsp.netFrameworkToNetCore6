@@ -1,4 +1,11 @@
 ﻿(function ($) {
+	var pathname = window.location.pathname,
+		pages = ['/Home/Index', '/Usuarios/Usuarios', '/Roles/Roles', '/Productos/Productos'];
+
+	$('.sidebar-item').each(function (i) {
+		if (pathname.includes(pages[i])) $(this).addClass('active');
+		else if (this.className.includes('active')) $(this).removeClass('active');
+	});
 
 	"use strict";
 

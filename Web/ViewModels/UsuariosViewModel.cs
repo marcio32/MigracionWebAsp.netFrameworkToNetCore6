@@ -8,7 +8,7 @@ namespace Web
     public class UsuariosViewModel
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Required]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

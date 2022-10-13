@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
@@ -12,9 +13,9 @@ namespace Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(InicioViewModel inicioViewModel)
         {
-            return View();
+            return View(inicioViewModel);
         }
 
     }

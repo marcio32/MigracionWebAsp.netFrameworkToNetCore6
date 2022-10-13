@@ -9,12 +9,13 @@ namespace Web.Data.Entities
 {
     public class Login
     {
-        [Required(ErrorMessage = "El Mail es requerido")]
         public string? Mail { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es requerida")]
         public string? Password { get; set; }
 
+        public bool Recuerdame { get; set; }
+
         public string? Token { get; set; }
+        public int Codigo { get; set; }
     }
 }

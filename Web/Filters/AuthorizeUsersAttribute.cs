@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Web.Filters
 {
     public class AuthorizeUsersAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
+
+               
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             //LOS USUARIOS SON ALMACENADOS DENTRO DE HttpContext
@@ -13,6 +16,7 @@ namespace Web.Filters
             //UN USUARIO ESTA COMPUESTO POR UNA IDENTIDAD Y UN PRINCIPAL
             //PODEMOS SABER EL NOMBRE DEL USUARIO O SI ESTA AUTENTICADO
             var user = context.HttpContext.User;
+           
             if (user.Identity.IsAuthenticated == false)
             {
                 //NECESITAMOS REALIZAR LA REDIRECCION PARA 
@@ -26,5 +30,7 @@ namespace Web.Filters
                 context.Result = result;
             }
         }
+
+
     }
 }

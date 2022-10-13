@@ -79,15 +79,24 @@ function EditarUsuario(row) {
 }
 
 function EliminarUsuario(row) {
-    $.ajax({
-        type: "POST",
-        url: "/Usuarios/EliminarUsuario",
-        data: JSON.stringify(row),
-        contentType: "application/json",
-        dataType: "html",
-        success: function (result) {
-            debugger
-            tablaUsuarios.ajax.reload();
+    Swal.fire({
+        title: '¿Está seguro que desea eliminar el usuario seleccionado?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: 'Cancelar',
+    }).then((resp) => {
+        if (resp.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "/Usuarios/EliminarUsuario",
+                data: JSON.stringify(row),
+                contentType: "application/json",
+                dataType: "html",
+                success: function (result) {
+                    debugger
+                    tablaUsuarios.ajax.reload();
+                }
+            });
         }
     });
 }

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Web.Data.Entities;
 
 namespace Web.Data.Base
 {
@@ -29,9 +30,10 @@ namespace Web.Data.Base
                 return contextInstance;
             }
         }
-    #endregion
+        #endregion
 
-    #region Abstracts Methods
+        #region Abstracts Methods
+
     public abstract Task<List<T>> SearchListAsync(T entityModel);
         public abstract Task<T> SearchSingle(T entityModel);
         public abstract Task<bool> Delete(T entityModel);

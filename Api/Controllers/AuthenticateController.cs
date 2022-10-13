@@ -10,6 +10,7 @@ using System.Text;
 using Web.Data.Entities;
 using Web.Data;
 using Web.Data.Entities;
+using Api.Services;
 
 namespace Api.Controllers
 {
@@ -51,7 +52,7 @@ namespace Api.Controllers
 
                     var token = GetToken(authClaims);
 
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString());
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString() + ";" + user.Nombre + ";" + user.Roles.Nombre + ";" + user.Mail);
                 }
                 return Unauthorized();
             }
@@ -62,6 +63,7 @@ namespace Api.Controllers
             }
 
         }
+
 
         [ApiExplorerSettings(IgnoreApi = true)]
         private JwtSecurityToken GetToken(List<Claim> authClaims)

@@ -25,32 +25,31 @@
                         <div class="row">
                             <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Nombre</label>
-                            @Html.EditorFor(x=> x.Nombre, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
-                            @Html.ValidationMessageFor(x=> x.Nombre, "", new {@class="text-danger"})
+                            @Html.EditorFor(x=> x.Nombre, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre", @required="required"} })
                             </div>
 
                              <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Apellido</label>
-                        @Html.EditorFor(x=> x.Apellido, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            @Html.EditorFor(x=> x.Apellido, new { htmlAttributes = new {@class = "col-md-9 form-control", @required="required"}} )
                             </div>
                          </div>
 
                          <div class="row">
                              <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Fecha de Nacimiento</label>
-                        @Html.EditorFor(x=> x.Fecha_Nacimiento, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            @Html.EditorFor(x=> x.Fecha_Nacimiento, new { htmlAttributes = new {@class = "col-md-9 form-control", @required="required"}} )
                             </div>
 
                              <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Contraseña</label>
-                        @Html.EditorFor(x=> x.Clave, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            @Html.EditorFor(x=> x.Clave, new { htmlAttributes = new {@class = "col-md-9 form-control", @required="required"}} )
                             </div>
                             </div>
 
                         <div class="row">
                              <div class="col-md-6 mt-1 mb-3">
                                 <label class="col-md-6 form-control-label">Mail</label>
-                                @Html.EditorFor(x=> x.Mail, new { htmlAttributes = new {@class = "col-md-9 form-control", @type="email"}} )
+                            @Html.EditorFor(x=> x.Mail, new { htmlAttributes = new {@class = "col-md-9 form-control", @type="email", @required="required"}} )
                             </div>
                         
                               <div class="col-md-6 mt-1 mb-3">
@@ -58,19 +57,24 @@
                                         <select name="Id_Rol" id="Id_Rol" required class="col-md-9 form-control">
                                     <option value="">Selecciona...</option>
                                 @{
-                                    foreach (var item in Model.Lista_Roles)
-                                    {
-                                        if (Model.Id_Rol != null && item.Value == Model.Id_Rol.ToString())
+                                    if (Model.Lista_Roles != null){
+                                        foreach (var item in Model.Lista_Roles)
                                         {
-                                            item.Selected = true;
-                                                            <option value=@item.Value selected>@item.Text</option>
-                                        }else{
-                                                            <option value=@item.Value>@item.Text</option>
+                                            if (Model.Id_Rol != null && item.Value == Model.Id_Rol.ToString())
+                                            {
+                                                item.Selected = true;
+                                                                                <option value=@item.Value selected>@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                                                <option value=@item.Value>@item.Text</option>
+                                            }
+
+
+
                                         }
-                                       
-                                      
-                                        
                                     }
+                                   
                                 }
                                 </select>
                                     </div>

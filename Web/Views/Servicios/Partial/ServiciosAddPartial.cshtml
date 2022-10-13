@@ -1,32 +1,32 @@
-﻿@model Web.ViewModels.RolesViewModel
+﻿@model Web.ViewModels.ServiciosViewModel
 
-<div class="modal fade" id="rolesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal fade" id="serviciosModal" tabindex="-1" servicioe="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" servicioe="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Roles.</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Servicios.</h5>
             </div>
             <div class="modal-body">
                 @{
                     var ActionName = "";
                     if (Model.Id == 0)
-                        ActionName = "GuardarRol";
+                        ActionName = "GuardarServicio";
                     else
-                        ActionName = "EditarRol";
+                        ActionName = "EditarServicio";
                 }
-                @using (Html.BeginForm(ActionName, "Roles", FormMethod.Post))
+                @using (Html.BeginForm(ActionName, "Servicios", FormMethod.Post))
                 {
                     @Html.HiddenFor(x=> x.Id)
 
                             <div class="row">
                                 <div class="col-md-6 mt-1 mb-3">
-                                    <label class="col-md-6 form-control-label">Nombre</label>
-                            @Html.EditorFor(x=> x.Nombre, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre", @required="required"} })
+                                    <label class="col-md-6 form-contservicio-label">Nombre</label>
+                            @Html.EditorFor(x=> x.Nombre, new { htmlAttributes = new {@class = "col-md-9 form-contservicio", @Name = "Model.Nombre", @required="required"} })
                                 </div>
 
                                      <div class="col-md-6 mt-1 mb-3">
-                                        <label class="col-md-6 form-control-label">Activo</label>
-                            @Html.CheckBoxFor(x=> x.Activo, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                                        <label class="col-md-6 form-contservicio-label">Activo</label>
+                            @Html.CheckBoxFor(x=> x.Activo, new { htmlAttributes = new {@class = "col-md-9 form-contservicio"}} )
                                     </div>
                              </div>
 

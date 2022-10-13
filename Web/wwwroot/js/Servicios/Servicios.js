@@ -1,9 +1,9 @@
-﻿var tablaRoles;
+﻿var tablaServicios;
 $(document).ready(function () {
     var token = getCookie('Token');
-    tablaRoles = $('#roles').DataTable({
+    tablaServicios = $('#servicios').DataTable({
         ajax: {
-            url: 'https://localhost:7008/api/Roles/BuscarRoles',
+            url: 'https://localhost:7008/api/Servicios/BuscarServicios',
             dataSrc: "",
             headers: { "Authorization": "Bearer " + token }
         },
@@ -18,8 +18,8 @@ $(document).ready(function () {
             {
                 data: function (row) {
                     var botones =
-                        `<td><a href='javascript:EditarRol(${JSON.stringify(row)})'><i class="fa-solid fa-pen-to-square editarRol"></i></td>` +
-                        `<td><a href='javascript:EliminarRol(${JSON.stringify(row)})'><i class="fa-solid fa-trash eliminarRol"></i></td>`
+                        `<td><a href='javascript:EditarServicio(${JSON.stringify(row)})'><i class="fa-solid fa-pen-to-square editarServicio"></i></td>` +
+                        `<td><a href='javascript:EliminarServicio(${JSON.stringify(row)})'><i class="fa-solid fa-trash eliminarServicio"></i></td>`
                         ;
                     return botones;
                 }
@@ -34,41 +34,41 @@ $(document).ready(function () {
     });
 });
 
-function GuardarRol(row) {
-    $("#rolesAddPartial").html("");
+function GuardarServicio(row) {
+    $("#serviciosAddPartial").html("");
     debugger
     $.ajax({
         type: "POST",
-        url: "/Roles/RolesAddPartial",
+        url: "/Servicios/ServiciosAddPartial",
         data: "",
         contentType: "application/json",
         dataType: "html",
         success: function (resultado) {
             debugger
-            $("#rolesAddPartial").html(resultado);
-            $('#rolesModal').modal('show');
+            $("#serviciosAddPartial").html(resultado);
+            $('#serviciosModal').modal('show');
         }
     })
 }
 
-function EditarRol(row) {
+function EditarServicio(row) {
     $.ajax({
         type: "POST",
-        url: "/Roles/RolesAddPartial",
+        url: "/Servicios/ServiciosAddPartial",
         data: JSON.stringify(row),
         contentType: "application/json",
         dataType: "html",
         success: function (resultado) {
-            $("#rolesAddPartial").html(resultado);
-            $('#rolesModal').modal('show');
+            $("#serviciosAddPartial").html(resultado);
+            $('#serviciosModal').modal('show');
         }
     })
 }
 
-function EliminarRol(row) {
+function EliminarServicio(row) {
 
     Swal.fire({
-        title: '¿Está seguro que desea eliminar el rol seleccionado?',
+        title: '¿Está seguro que desea eliminar el servicio seleccionado?',
         showDenyButton: true,
         confirmButtonText: 'Eliminar',
         denyButtonText: 'Cancelar',
@@ -76,12 +76,12 @@ function EliminarRol(row) {
         if (resp.isConfirmed) {
             $.ajax({
                 type: "POST",
-                url: "/Roles/EliminarRol",
+                url: "/Servicios/EliminarServicio",
                 data: JSON.stringify(row),
                 contentType: "application/json",
                 dataType: "html",
                 success: function () {
-                    tablaRoles.ajax.reload();
+                    tablaServicios.ajax.reload();
                 }
             })
         }

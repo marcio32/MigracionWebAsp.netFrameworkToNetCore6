@@ -21,7 +21,7 @@
                             <div class="row">
                                      <div class="col-md-12 mt-1 mb-3">
                                 <label class="col-md-3 form-control-label">Subir Imagen</label>
-                            @Html.EditorFor(x=> x.File, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                            @Html.EditorFor(x=> x.File, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre", @required="required"} })
 
                             </div>
    </div>
@@ -31,19 +31,19 @@
                                  <div class="row">
                                     <div class="col-md-6 mt-1 mb-3">
                                             <label class="col-md-6 form-control-label">Descripcion</label>
-                            @Html.EditorFor(x=> x.Descripcion, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                            @Html.EditorFor(x=> x.Descripcion, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre", @required="required"} })
                                     </div>
 
                                          <div class="col-md-6 mt-1 mb-3">
                                                 <label class="col-md-6 form-control-label">Precio</label>
-                            @Html.EditorFor(x=> x.Precio, new { htmlAttributes = new {@class = "col-md-9 form-control"}} )
+                            @Html.EditorFor(x=> x.Precio, new { htmlAttributes = new {@class = "col-md-9 form-control", @required="required"}} )
                                         </div>
                                  </div>
 
                                         <div class="row">
                                                         <div class="col-md-6 mt-1 mb-3">
                                                 <label class="col-md-6 form-control-label">Stock</label>
-                            @Html.EditorFor(x=> x.Stock, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre"} })
+                            @Html.EditorFor(x=> x.Stock, new { htmlAttributes = new {@class = "col-md-9 form-control", @Name = "Model.Nombre", @required="required"} })
                                         </div>    
                                              <div class="col-md-6 mt-1 mb-3">
                                                     <label class="col-md-6 form-control-label">Activo</label>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json.Serialization;
 using Web.Data.Base;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,16 +9,30 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDistributedMemoryCache();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    
 
-}).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+}).AddCookie(options =>
+        {
+            options.Events.OnRedirectToLogin = context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.Redirect("https://localhost:7173/Login");
+                return Task.CompletedTask;
+            };
+        });
+builder.Services.AddMvc()
+   .AddNewtonsoftJson(options =>
+          options.SerializerSettings.ContractResolver =
+             new CamelCasePropertyNamesContractResolver());
+
+builder.Services.AddAuthorization(options =>
 {
-    config.AccessDeniedPath = "/Manage/ErrorAcceso";
+    options.AddPolicy("ADMINISTRADORES", policy => policy.RequireRole("Administrador"));
 });
 
 builder.Services.AddHttpClient("useApi", config =>
@@ -25,18 +40,7 @@ builder.Services.AddHttpClient("useApi", config =>
     config.BaseAddress = new Uri(builder.Configuration["ServicesUrl:ApiUrl"]);
 });
 
-builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-
-builder.Services.AddControllersWithViews(options => options.EnableEndpointRouting = false).AddSessionStateTempDataProvider();
-
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ADMINISTRADORES", policy => policy.RequireRole("ADMINISTRADOR"));
-});
-
-
-
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -58,6 +62,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

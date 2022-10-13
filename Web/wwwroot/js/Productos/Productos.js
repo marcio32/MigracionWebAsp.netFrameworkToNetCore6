@@ -1,17 +1,24 @@
 ﻿var tablaProductos;
 $(document).ready(function () {
-
+    var token = getCookie('Token');
     tablaProductos = $('#productos').DataTable({
         ajax: {
             url: 'https://localhost:7008/api/Productos/BuscarProductos',
-            dataSrc: ''
+            dataSrc: '',
+            headers: { "Authorization": "Bearer " + token }
         },
         columns: [
             { data: 'id', title: 'Id' },
             {
                 data: 'imagen',
                 render: function (data) {
-                    return '<img src="data:image/jpeg;base64,' + data + '"width="100px" height="100px">';
+                    debugger
+                    if (data == "") {
+                        return '<img src="/images/images.png"width="100px" height="100px">';
+                    } else {
+                        return '<img src="data:image/jpeg;base64,' + data + '"width="100px" height="100px">';
+                    }
+                    
                 },
                 title: 'Imagen'
             },
@@ -82,15 +89,25 @@ function EditarProducto(row) {
 }
 
 function EliminarProducto(row) {
-    $.ajax({
-        type: "POST",
-        url: "/Productos/EliminarProducto",
-        data: JSON.stringify(row),
-        contentType: "application/json",
-        dataType: "html",
-        success: function (result) {
-            debugger
-            tablaProductos.ajax.reload();
+    Swal.fire({
+        title: '¿Está seguro que desea eliminar el producto seleccionado?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: 'Cancelar',
+    }).then((resp) => {
+        if (resp.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "/Productos/EliminarProducto",
+                data: JSON.stringify(row),
+                contentType: "application/json",
+                dataType: "html",
+                success: function (result) {
+                    debugger
+                    tablaProductos.ajax.reload();
+                }
+            });
         }
-    });
+    })
+
 }

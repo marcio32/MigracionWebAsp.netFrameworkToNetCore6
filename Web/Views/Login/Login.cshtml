@@ -1,13 +1,12 @@
-﻿
+﻿@model LoginViewModel
 @{
-
 	Layout = null;
 }
 
 <!doctype html>
 <html lang="en">
   <head>
-	  <title>Login 10</title>
+	  <title>Educacion It</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
@@ -29,24 +28,31 @@
 				  <h3 class="mb-4 text-center">Iniciar Sesion</h3>
 				  <form action="Login/SignIn" method="post" id="form-login" class="signin-form">
 					  <div class="form-group">
-						  <input id="mail" type="email" name="Mail" class="form-control" placeholder="Mail" required>
+			
+								@Html.EditorFor(model => model.Mail, new { htmlAttributes = new {@class = "form-control", @placeholder="Mail", @type="email", @required="required"}})
 					  </div>
 				<div class="form-group">
-				  <input id="clave" type="password" name="Password" class="form-control" placeholder="Contraseña" required>
+								@Html.EditorFor(model => model.Password, new { htmlAttributes = new {@class = "form-control", @placeholder="Contraseña", @type="password", @required="required"}})
 				  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="form-control btn btn-primary submit px-3">Iniciar</button>
+								
+					<p class="ml-1">@ViewBag.ErrorLogin</p>
+					
+				</div>
+				<div class="form-group">
+					<button type="submit" class="form-control btn btn-primary submit px-3">Ingresar</button>
 				</div>
 				<div class="form-group d-md-flex">
 					<div class="w-50">
-						<label class="checkbox-wrap checkbox-primary">Recuerdame
-									  <input type="checkbox" checked>
+						<label class="checkbox-wrap checkbox-primary" for="Recuerdame">Recuerdame
+									 
+										@Html.CheckBoxFor(model => model.Recuerdame)
 									  <span class="checkmark"></span>
 									</label>
 								</div>
 								<div class="w-50 text-md-right">
-									<a href="#" style="color: #fff">Olvidaste tu contraseña?</a>
+									<a style="color: #fff" asp-area="" asp-controller="Login" asp-action="OlvidoClave">Olvidaste tu contraseña?</a>
 								</div>
 				</div>
 			  </form>
